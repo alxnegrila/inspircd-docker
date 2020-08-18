@@ -17,7 +17,7 @@ script:
   - docker build --build-arg "VERSION=$INSPIRCD_VERSION" -t inspircd:testing .
   # Run all tests from test directory
   #- ls tests/*.sh | parallel --joblog /tmp/joblog
-  - cat /tmp/joblog
+  #- cat /tmp/joblog
 
 after_success:
   # Push successful builds of the master branch to Docker Hub
