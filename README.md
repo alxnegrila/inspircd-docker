@@ -1,7 +1,7 @@
 
 # InspIRCd
 
-[![Build Status](https://travis-ci.org/inspircd/inspircd-docker.svg?branch=master)](https://travis-ci.org/inspircd/inspircd-docker)
+[![Build Status](https://travis-ci.org/alxnegrila/inspircd.svg?branch=master)](https://travis-ci.org/alxnegrila/inspircd)
 
 InspIRCd is a modular Internet Relay Chat (IRC) server written in C++ for Linux, BSD, Windows and Mac OS X systems which was created from scratch to be stable, modern and lightweight.
 
@@ -14,7 +14,7 @@ The easiest way to run this image is using our bootstrap script.
 To use it run the following statement:
 
 ```console
-wget -qO- https://raw.githubusercontent.com/inspircd/inspircd-docker/master/bootstrap.sh | sh
+wget -qO- https://raw.githubusercontent.com/alxnegrila/inspircd-docker/master/bootstrap.sh | sh
 ```
 
 The bootstrap script takes care of the fact that docker is installed and runs the image.
@@ -26,7 +26,7 @@ If port `6697` or `6667` are already in use another random port is used. Otherwi
 First, a simple run command:
 
 ```console
-$ docker run --name ircd -p 6667:6667 inspircd/inspircd-docker
+$ docker run --name ircd -p 6667:6667 alxnegrila/inspircd
 ```
 
 This will start an InspIRCd instance listening on the default IRC port 6667 on the container.
@@ -74,7 +74,7 @@ Use the following environment variables to configure your container:
 A quick example how to use the environment variables:
 
 ```console
-$ docker run --name inspircd -p 6667:6667 -e "INSP_NET_NAME=MyExampleNet" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -e "INSP_NET_NAME=MyExampleNet" alxnegrila/inspircd
 ```
 
 ### Password authentication
@@ -83,12 +83,12 @@ You can either set a plaintext password or a hashed password. If you leave `INSP
 
 To use connect password `s3cret` stored in plaintext:
 ```console
-$ docker run --name inspircd -p 6667:6667 -e "INSP_CONNECT_PASSWORD=s3cret" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -e "INSP_CONNECT_PASSWORD=s3cret" alxnegrila/inspircd
 ```
 
 To use connect password `s3cret` stored with `hmac-sha256`:
 ```console
-$ docker run --name inspircd -p 6667:6667 -e "INSP_CONNECT_HASH=hmac-sha256" -e "INSP_CONNECT_PASSWORD=mlknZfDb\$C5E0lXKxdoHFxmsJEfSNe8Ct4XG25slv2WiJvUnnWew" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -e "INSP_CONNECT_HASH=hmac-sha256" -e "INSP_CONNECT_PASSWORD=mlknZfDb\$C5E0lXKxdoHFxmsJEfSNe8Ct4XG25slv2WiJvUnnWew" alxnegrila/inspircd
 ```
 
 *Make sure you escape special chars like `$` or `&` if needed. If you are using `docker-compose` you might need to double escape and use double-dollar signs*
@@ -121,7 +121,7 @@ To generate a password hash connect to the network and use `/mkpasswd <hash-type
 For example to oper up with `/oper oper s3cret` you would run the following line:
 
 ```console
-$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_OPER_PASSWORD_HASH=cNkbWRWn\$MhSTITMbrCxp0neoDqL66/MSI2C+oxIa4Ux6DXb5R4Q" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_OPER_PASSWORD_HASH=cNkbWRWn\$MhSTITMbrCxp0neoDqL66/MSI2C+oxIa4Ux6DXb5R4Q" alxnegrila/inspircd
 ```
 
 *Make sure you escape special chars like `$` or `&` if needed*
@@ -189,7 +189,7 @@ This way you can easily connect [Anope](https://www.anope.org/) or [Atheme](http
 If you want to link `services.example.com` for example, you have to specify at least the `INSP_SERVICES_PASSWORD`:
 
 ```consle
-$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_SERVICES_PASSWORD=somesecretpassword" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_SERVICES_PASSWORD=somesecretpassword" alxnegrila/inspircd
 ```
 
 *Make sure you run the services and InspIRCd container on the same docker network or specify the correct `INSP_SERVICES_ALLOWMASK`*
@@ -202,7 +202,7 @@ $ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_SERVICES_PASSWOR
 This container image generates a self-signed TLS certificate on start-up as long as none exists. To use this container with TLS enabled:
 
 ```console
-$ docker run --name inspircd -p 6667:6667 -p 6697:6697 inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -p 6697:6697 alxnegrila/inspircd
 ```
 
 You can customize the self-signed TLS certificate using the following environment variables:
@@ -222,7 +222,7 @@ You can customize the self-signed TLS certificate using the following environmen
 This will generate a self-signed certificate for `irc.example.org` instead of `irc.example.com`:
 
 ```console
-$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_TLS_CN=irc.example.org" inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -p 6697:6697 -e "INSP_TLS_CN=irc.example.org" alxnegrila/inspircd
 ```
 
 ### Using secrets
@@ -235,7 +235,7 @@ We provide the ability to use `secrets` with this image to place a certificate t
 docker secret create irc.key /path/to/your/ircd.key
 docker secret create inspircd.crt /path/to/your/ircd.crt
 
-docker service create --name inspircd --secret source=irc.key,target=inspircd.key,mode=0400 --secret inspircd.crt inspircd/inspircd-docker
+docker service create --name inspircd --secret source=irc.key,target=inspircd.key,mode=0400 --secret inspircd.crt alxnegrila/inspircd
 ```
 
 Notice the syntax `--secret source=irc.key,target=inspircd.key` allows you to name a secret in a way you like.
@@ -252,7 +252,7 @@ To extend the default configuration you can use `/inspircd/conf.d/`.
 All `.conf`-files placed there, by mounting or extending the image, are automatically included.
 
 ```console
-$ docker run --name inspircd -p 6667:6667 -v /path/to/your/configs:/inspircd/conf.d/ inspircd/inspircd-docker
+$ docker run --name inspircd -p 6667:6667 -v /path/to/your/configs:/inspircd/conf.d/ alxnegrila/inspircd
 ```
 
 *You have to take care about possible conflicts with the existing configuration. If you want a full custom configuration,
@@ -268,7 +268,7 @@ For example to add your own oper configuration.
 ```console
 docker secret create secret-opers /path/to/your/opers.conf
 
-docker service create --name inspircd --secret secret-opers inspircd/inspircd-docker
+docker service create --name inspircd --secret secret-opers alxnegrila/inspircd
 ```
 
 # Build extras
@@ -305,7 +305,7 @@ Make sure you install all needed dependencies using `ADDPACKAGES`.
 To update your setup simply pull the newest image version from docker hub and run it.
 
 ```console
-docker pull inspircd/inspircd-docker
+docker pull alxnegrila/inspircd
 ```
 
 We automatically build our images weekly to include the current state of modern libraries.
